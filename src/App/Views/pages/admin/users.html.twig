@@ -1,0 +1,129 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Admin panel - Utilisateurs
+{% endblock %}
+
+{% block content %}
+	{% if alertMessage is not empty %}
+		<div class="container  alert d-flex justify-content-center alert-succes">
+			{{ alertMessage | raw }}
+		</div>
+	{% endif %}
+	<div class="container mt-4">
+		<h2>Tableau des Utilisateurs
+			<i class="fa-solid fa-user-gear" style="color: #3d85c6;"></i>
+		</h2>
+
+		<div class="table-responsive">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Téléphone</th>
+						<th>Email</th>
+						<th>Adresse</th>
+						<th>Admin</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<form action="/admin/users" method="POST">
+						<tr>
+							<td></td>
+							<td>
+								<textarea class="form-control" rows="1" cols="10" placeholder="nom" name="lastname" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="10" placeholder="prénom" name="firstname" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="15" placeholder="tel" type="tel" name="phone" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" placeholder="e-mail" type="email" name="email" required></textarea>
+							</td>
+							<td style="width:300px">
+								<textarea class="form-control" rows="1" placeholder="adresse (optionnel)" name="address"></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="1" placeholder="0/1" type="number" min="0" max="1" name="is_admin" required></textarea>
+							</td>
+							<td>
+								<button type="submit" class="btn btn-info">Ajouter</button>
+							</td>
+						</tr>
+					</form>
+					{% for user in datas %}
+						<tr>
+							<td>{{ user.id }}</td>
+							<td>{{ user.lastname }}</td>
+							<td>{{ user.firstname }}</td>
+							<td>{{ user.phone }}</td>
+							<td>{{ user.email }}</td>
+							<td>{{ user.address }}</td>
+							<td>{{ user.isAdmin }}</td>
+							<td>
+								<button type="button" class="btn btn-warning">Modifier</button>
+								<a href="/admin/users/delete/{{ user.id }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+	<a href="/admin" class="btn btn-primary">Retour</a>
+
+
+	<!-- Modal -->
+	<div class="modal fade users-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Modification Utilisateur :
+						<span id="user-id"></span>
+					</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/admin/users/update" method="POST">
+						<input type="hidden" name="update_user_id" id="user-id-input" value="">
+						<div class="mb-3">
+							<label for="recipient-lastname" class="col-form-label">Nom :</label>
+							<input type="text" name="update_lastname" class="form-control" id="recipient-lastname">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-firstname" class="col-form-label">Prénom :</label>
+							<input type="text" name="update_firstname" class="form-control" id="recipient-firstname">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-tel" class="col-form-label">Téléphone :</label>
+							<input type="text" name="update_phone" class="form-control" id="recipient-tel">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-email" class="col-form-label">Email :</label>
+							<input type="text" name="update_email" class="form-control" id="recipient-email">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-address" class="col-form-label">Adresse :</label>
+							<input type="text" name="update_address" class="form-control" id="recipient-address">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-isadmin" class="col-form-label">Admin (0/1) :</label>
+							<input type="text" name="update_is_admin" class="form-control" id="recipient-isadmin">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-warning">Modifier</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+
+</div>
+<script src="/assets/scripts/modalsAdmin.js"></script>{% endblock %}

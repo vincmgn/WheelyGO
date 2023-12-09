@@ -1,0 +1,113 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Home
+{% endblock %}
+
+{% block content %}
+	{% if alertMessageLog is not empty %}
+		<div class="container  alert d-flex justify-content-center alert-succes">
+			{{ alertMessageLog | raw }}
+		</div>
+	{% endif %}
+	<div class="container my-5">
+		<div class="text-center">
+			<h1 class="display-3">Bienvenue sur
+				<span class="multicolor-heading">WheelyGO</span>
+			</h1>
+			<p class="lead">Louez votre véhicule idéal en quelques clics !
+				<img src="/assets/icons/logo.png" alt="logo" width="35" height="35" class="me-2">
+			</p>
+		</div>
+
+		<form action="/searchVehicle" method="POST" class="mt-4">
+			<div class="row justify-content-center">
+				<div class="col-md-4 mb-3">
+					<div class="input-group">
+						<input type="search" name="searchCity" class="form-control rounded-left" placeholder="Rechercher par ville" aria-label="City Search" aria-describedby="search-addon"/>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<button type="submit" class="btn btn-danger w-100">Rechercher</button>
+				</div>
+			</div>
+
+			<div class="container alert d-flex justify-content-center mb-0">{{ alertMessage | raw }}</div>
+
+			<div class="bg-dark bg-gradient px-3 pb-3">
+				<h3 class="mt-4 pt-3 text-light">
+					<span class="text-decoration-underline">Filtres</span>
+				</h3>
+
+				<div class="row mt-3">
+					<div class="col-md-4">
+						<h5 class="text-light">Marque</h5>
+						{% for brand in brands %}
+							<div class="form-check">
+								<input class="form-check-input" name="brands[]" type="checkbox" value="{{ brand.brand }}" id="brand{{ brand.brand }}">
+								<label class="form-check-label text-light" for="brand{{ brand.brand }}">{{ brand.brand }}</label>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="col-md-4">
+						<h5 class="text-light">Nombre de place</h5>
+						{% for nbPlace in nbPlaces %}
+							<div class="form-check">
+								<input class="form-check-input" name="numberPlaces[]" type="checkbox" value="{{ nbPlace.numberPlace }}" id="nbPlace{{ nbPlace.numberPlace }}">
+								<label class="form-check-label text-light" for="nbPlace{{ nbPlace.numberPlace }}">{{ nbPlace.numberPlace }}</label>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="col-md-4">
+						<h5 class="text-light">Couleur</h5>
+						{% for color in colors %}
+							<div class="form-check">
+								<input class="form-check-input" name="colors[]" type="checkbox" value="{{ color.color }}" id="color{{ color.color }}">
+								<label class="form-check-label text-light" for="color{{ color.color }}">{{ color.color }}</label>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="col-md-12 px-5 mt-4 rangePrice">
+						<h5 class="text-light">Prix max à la journée</h5>
+						<div class="d-flex justify-content-between align-items-center">
+							<input type="range" name="maxPrice" class="form-range" min="{{ prices[0]['MinPrice'] }}" max="{{ prices[0]['MaxPrice'] }}" step="10" value="{{ prices[0]['MaxPrice'] }}" id="priceRange">
+						</div>
+						<div class="text-center mt-1 text-light">
+							<span id="currentPrice"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<div class="container my-5">
+		<div class="text-center">
+			<h1 class="display-6">Tous les
+				<span class="multicolor-heading">véhicules</span>
+			</h1>
+		</div>
+
+		<div class="row mt-4">
+			{% for vehicle in vehicles %}
+				<div class="col-md-3 mb-4">
+					<div class="card">
+						<img src="{{ vehicle.image_path }}" class="card-img-top" alt="{{ vehicle.name }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ vehicle.name }}</h5>
+							<p class="card-text">Marque:
+								{{ vehicle.brand }}</p>
+							<p class="card-text">Prix à la journée:
+								{{ vehicle.price }}
+								€</p>
+							<a href="/vehicle/{{ vehicle.id }}" class="btn btn-primary">En savoir plus</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<script src="/assets/scripts/home.js"></script>
+{% endblock %}

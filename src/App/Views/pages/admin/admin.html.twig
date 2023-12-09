@@ -1,0 +1,92 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Admin panel
+{% endblock %}
+
+{% block content %}
+	<!-- Contenu de la page -->
+	<div class="container mt-5">
+		<div
+			class="row text-center">
+
+			<!-- Carte Utilisateurs -->
+			<div class="col-sm-4 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<i class="fas fa-user-gear fa-2x mb-2" style="color: #3d85c6;"></i>
+						<h5 class="card-title">Utilisateurs</h5>
+						<a href="/admin/users" class="btn btn-primary">Accéder</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Carte Marques -->
+			<div class="col-sm-4 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<i class="fas fa-bookmark fa-2x mb-2" style="color: #e69138;"></i>
+						<h5 class="card-title">Marques</h5>
+						<a href="/admin/brands" class="btn btn-primary">Accéder</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Carte Nombre de Places -->
+			<div class="col-sm-4 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<i class="fas fa-arrow-up-9-1 fa-2x mb-2" style="color: #6aa84f;"></i>
+						<h5 class="card-title">Nombre de places</h5>
+						<a href="/admin/number-places" class="btn btn-primary">Accéder</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Carte Couleurs -->
+			<div class="col-sm-4 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<i class="fas fa-palette fa-2x mb-2" style="color: #a64d79;"></i>
+						<h5 class="card-title">Couleurs</h5>
+						<a href="/admin/colors" class="btn btn-primary">Accéder</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Carte Véhicules -->
+			<div class="col-sm-4 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<i class="fas fa-car fa-2x mb-2" style="color: #cc0000;"></i>
+						<h5 class="card-title">Véhicules</h5>
+						<a href="/admin/vehicles" class="btn btn-primary">Accéder</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Carte Avis -->
+			<div class="col-sm-4 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<i class="fas fa-star fa-2x mb-2" style="color: #674ea7;"></i>
+						<h5 class="card-title">Avis</h5>
+						<a href="/admin/reviews" class="btn btn-primary">Accéder</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<form action="/admin/research" method="GET">
+		<div class="container d-flex justify-content-center my-5">
+			<div class="input-group small-input">
+				<input type="search" name="research" class="form-control rounded-left" placeholder="Recherche (marque, nom du véhicule, nombre de places, couleur)" aria-label="Search" aria-describedby="search-addon"/>
+				<button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>
+					Rechercher un véhicule
+				</button>
+			</div>
+		</div>
+	</form>
+
+{% endblock %}

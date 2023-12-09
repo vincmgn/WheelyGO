@@ -1,0 +1,101 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Admin panel - Commentaires
+{% endblock %}
+
+{% block content %}
+	{% if alertMessage is not empty %}
+		<div class="container  alert d-flex justify-content-center alert-succes">
+			{{ alertMessage | raw }}
+		</div>
+	{% endif %}
+	<div class="container mt-4 px-5">
+		<h2>Tableau des Commentaires
+			<i class="fas fa-star mb-2" style="color: #674ea7;"></i>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Utilisateur</th>
+						<th>Vehicule</th>
+						<th>Commentaires</th>
+						<th>Note</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<form action="/admin/reviews" method="POST">
+						<tr>
+							<td></td>
+							<td>
+								<textarea class="form-control" rows="1" cols="10" placeholder="utilisateur id" name="user_id" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="10" placeholder="vehicule id" name="vehicle_id" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="30" placeholder="commentaire" name="review" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="10" placeholder="note (/5)" name="stars" required></textarea>
+							</td>
+							<td>
+								<button type="submit" class="btn btn-info">Ajouter</button>
+							</td>
+						</tr>
+					</form>
+					{% for review in datas %}
+						<tr>
+							<td>{{ review.id }}</td>
+							<td>{{ review.firstname }}
+								{{ review.lastname }}</td>
+							<td>{{ review.vehicle_name }}</td>
+							<td>{{ review.review }}</td>
+							<td>{{ review.stars }}</td>
+							<td>
+								<button type="button" class="btn btn-warning">Modifier</button>
+								<a href="/admin/reviews/delete/{{ review.id }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire ?')">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+	<a href="/admin" class="btn btn-primary">Retour</a>
+
+	<!-- Modal -->
+	<div class="modal fade reviews-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Modification Commentaire :
+						<span id="user-id"></span>
+					</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/admin/reviews/update" method="POST">
+						<input type="hidden" name="update_review_id" id="review-id-input" value="">
+						<div class="mb-3">
+							<label for="recipient-review" class="col-form-label">Commentaire :</label>
+							<input type="text" name="update_review" class="form-control" id="recipient-review">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-stars" class="col-form-label">Note (/5) :</label>
+							<input type="text" name="update_stars" class="form-control" id="recipient-stars">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-warning">Modifier</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+</div>
+<script src="/assets/scripts/modalsAdmin.js"></script>{% endblock %}

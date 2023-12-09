@@ -1,0 +1,82 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Admin panel - Marques
+{% endblock %}
+
+{% block content %}
+	{% if alertMessage is not empty %}
+		<div class="container  alert d-flex justify-content-center alert-succes">
+			{{ alertMessage | raw }}
+		</div>
+	{% endif %}
+	<div class="container mt-4 px-5">
+		<h2>Tableau des Marques
+			<i class="fas fa-bookmark fa mb-2" style="color: #e69138;"></i>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-bordered w-50">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nom de la marque</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<form action="/admin/brands" method="POST">
+						<tr>
+							<td></td>
+							<td>
+								<textarea class="form-control" rows="1" cols="25" placeholder="marque" name="brand" required></textarea>
+							</td>
+							<td>
+								<button type="submit" class="btn btn-info">Ajouter</button>
+							</td>
+						</tr>
+					</form>
+					{% for brand in datas %}
+						<tr>
+							<td>{{ brand.id }}</td>
+							<td>{{ brand.brand }}</td>
+							<td>
+								<button type="button" class="btn btn-warning">Modifier</button>
+								<a href="/admin/brands/delete/{{ brand.id }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette marque ?')">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<a href="/admin" class="btn btn-primary">Retour</a>
+
+		<!-- Modal -->
+		<div class="modal fade brands-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Modification Marque :
+							<span id="user-id"></span>
+						</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="/admin/brands/update" method="POST">
+							<input type="hidden" name="update_brand_id" id="brand-id-input" value="">
+							<div class="mb-3">
+								<label for="recipient-brand" class="col-form-label">Nom de la marque :</label>
+								<input type="text" name="update_brand" class="form-control" id="recipient-brand">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-warning">Modifier</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+
+	<script src="/assets/scripts/modalsAdmin.js"></script>
+{% endblock %}

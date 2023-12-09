@@ -1,0 +1,38 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Connexion
+{% endblock %}
+
+{% block content %}
+	{% if alertMessage is not empty %}
+		<div class="container mt-4 alert d-flex justify-content-center alert-succes">
+			{{ alertMessage | raw }}
+		</div>
+	{% endif %}
+	<section class="text-center d-flex w-100 align-items-center justify-content-center my-5 ">
+		<div class="card mx-4 mx-md-5 shadow-5-strong d-flex justify-content-center align-items-center w-50">
+			<div class="card-body py-5  px-md-5 w-100">
+				<div class="row d-flex justify-content-center">
+					<div class="col-lg-8">
+						<h2 class="fw-bold mb-5">Accéder à mon compte</h2>
+						<form action="/login" method="POST">
+							<div class="form-outline mb-4">
+								<input type="email" id="email" class="form-control" name="email" required/>
+								<label class=" form-label" for="email">Adresse Email</label>
+							</div>
+
+							<div class="form-outline mb-4">
+								<input type="password" id="motdepasse" class="form-control" name="password" required/>
+								<label class=" form-label" for="motdepasse">Mot de passe</label>
+							</div>
+
+							<button type="submit" class="btn btn-primary btn-block mb-4">
+								Mon compte
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

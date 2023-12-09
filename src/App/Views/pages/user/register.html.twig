@@ -1,0 +1,66 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Inscription
+{% endblock %}
+
+{% block content %}
+	<section class="text-center d-flex w-100 align-items-center justify-content-center my-5 ">
+
+		<div class="card mx-4 mx-md-5 shadow-5-strong d-flex justify-content-center align-items-center w-50">
+			<div class="card-body py-5 px-md-5 w-100">
+
+				<div class="row d-flex justify-content-center">
+					<div class="col-lg-8">
+						<h2 class="fw-bold mb-5">Nouveau client WheelyGO ?</h2>
+						{% if alertMessage is not empty %}
+							<div class="container mt-4 alert d-flex justify-content-center">{{ alertMessage | raw }}</div>
+						{% endif %}
+						<form action="/register" method="POST">
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<input type="text" id="prenom" class="form-control" name="firstname" required/>
+										<label class="form-label" for="prenom">Prénom</label>
+									</div>
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<input type="text" id="nom" class="form-control" name="lastname" required/>
+										<label class="form-label" for="nom">Nom</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-outline mb-4">
+								<input type="email" id="email" class="form-control" name="email" required/>
+								<label class="form-label" for="email">Adresse Email</label>
+							</div>
+							<div class="form-outline mb-4">
+								<input type="tel" id="telephone" class="form-control" name="phone" required/>
+								<label class="form-label" for="telephone">Téléphone</label>
+							</div>
+							<div class="form-outline mb-4">
+								<input type="text" id="address" class="form-control" name="address" required/>
+								<label class="form-label" for="address">Adresse
+								</label>
+							</div>
+
+							<div class="form-outline mb-4">
+								<input type="password" id="motdepasse" class="form-control" name="password" required/>
+								<label class="form-label" for="motdepasse">Mot de passe</label>
+							</div>
+							<div class="form-outline mb-4">
+								<input type="password" id="confirmmotdepasse" class="form-control" name="confirmPassword" required/>
+								<label class="form-label" for="confirmmotdepasse">Confirmation du mot de passe</label>
+							</div>
+
+							<button type="submit" class="btn btn-primary btn-block mb-4">
+								Créer mon compte
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Admin panel - Nombre de places
+{% endblock %}
+
+{% block content %}
+	{% if alertMessage is not empty %}
+		<div class="container  alert d-flex justify-content-center alert-succes">
+			{{ alertMessage | raw }}
+		</div>
+	{% endif %}
+	<div class="container mt-4 px-5">
+		<h2>Tableau des Nombres de places
+			<i class="fas fa-arrow-up-9-1 fa mb-2" style="color: #6aa84f;"></i>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-bordered w-50">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nombre de place</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<form action="/admin/number-places" method="POST">
+						<tr>
+							<td></td>
+							<td>
+								<textarea class="form-control" rows="1" cols="25" placeholder="nombre de place" name="number_place" required></textarea>
+							</td>
+							<td>
+								<button type="submit" class="btn btn-info">Ajouter</button>
+							</td>
+						</tr>
+					</form>
+					{% for nbPlace in datas %}
+						<tr>
+							<td>{{ nbPlace.id }}</td>
+							<td>{{ nbPlace.numberPlace }}</td>
+							<td>
+								<button type="button" class="btn btn-warning">Modifier</button>
+								<a href="/admin/number-places/delete/{{ nbPlace.id }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce nombre de place ?')">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+	<a href="/admin" class="btn btn-primary">Retour</a>
+
+
+	<!-- Modal -->
+	<div class="modal fade number-places-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Modification Marque :
+						<span id="user-id"></span>
+					</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/admin/number-places/update" method="POST">
+						<input type="hidden" name="update_number-places_id" id="number-places-id-input" value="">
+						<div class="mb-3">
+							<label for="recipient-number-places" class="col-form-label">Nombre de place :</label>
+							<input type="text" name="update_number-places" class="form-control" id="recipient-number-places">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-warning">Modifier</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+
+</div>
+<script src="/assets/scripts/modalsAdmin.js"></script>{% endblock %}

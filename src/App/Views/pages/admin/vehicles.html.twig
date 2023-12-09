@@ -1,0 +1,137 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Admin panel - Véhicules
+{% endblock %}
+
+{% block content %}
+	{% if alertMessage is not empty %}
+		<div class="container  alert d-flex justify-content-center alert-succes">
+			{{ alertMessage | raw }}
+		</div>
+	{% endif %}
+	<div class="container mt-4 px-5">
+		<h2>Tableau des Véhicules
+			<i class="fas fa-car fa mb-2" style="color: #cc0000;"></i>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Image</th>
+						<th>Nom / model</th>
+						<th>Localisation</th>
+						<th>Marque</th>
+						<th>Nombre de place</th>
+						<th>Couleur</th>
+						<th>Prix à la journée</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<form action="/admin/vehicles" method="POST" enctype="multipart/form-data">
+						<tr>
+							<td></td>
+							<td>
+								<input class="form-control" type="file" id="formFile" name="image" required>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="15" placeholder="nom" name="name" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="25" placeholder="localisation" name="localisation" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="10" placeholder="marque" name="brand_id" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="25" placeholder="nb place" name="number_place_id" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="15" placeholder="couleur" name="color_id" required></textarea>
+							</td>
+							<td>
+								<textarea class="form-control" rows="1" cols="15" placeholder="prix" name="price" required></textarea>
+							</td>
+							<td>
+								<button type="submit" class="btn btn-info">Ajouter</button>
+							</td>
+						</tr>
+					</form>
+					{% for vehicle in datas %}
+						<tr>
+							<td>{{ vehicle.id }}</td>
+							<td><img src="{{ vehicle.image_path }}" style="width: 150px; height: auto;"/></td>
+							<td>{{ vehicle.name }}</td>
+							<td>{{ vehicle.localisation }}</td>
+							<td>{{ vehicle.brand }}</td>
+							<td>{{ vehicle.number_place }}</td>
+							<td>{{ vehicle.color }}</td>
+							<td>{{ vehicle.price }}</td>
+							<td>
+								<button type="button" class="btn btn-warning">Modifier</button>
+								<a href="/admin/vehicles/delete/{{ vehicle.id }}" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce véhicule ?')">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+	<a href="/admin" class="btn btn-primary">Retour</a>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade vehicles-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Modification Vehicule :
+					<span id="user-id"></span>
+				</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="/admin/vehicles/update" method="POST">
+					<input type="hidden" name="update_vehicle_id" id="vehicle-id-input" value="">
+					<div class="mb-3">
+						<label for="recipient-image" class="col-form-label">Image (path) :</label>
+						<input type="text" name="update_image" class="form-control" id="recipient-image">
+					</div>
+					<div class="mb-3">
+						<label for="recipient-name" class="col-form-label">Nom / model :</label>
+						<input type="text" name="update_name" class="form-control" id="recipient-name">
+					</div>
+					<div class="mb-3">
+						<label for="recipient-localisation" class="col-form-label">Localisation :</label>
+						<input type="text" name="update_localisation" class="form-control" id="recipient-localisation">
+					</div>
+					<div class="mb-3">
+						<label for="recipient-brand" class="col-form-label">Marque :</label>
+						<input type="text" name="update_brand" class="form-control" id="recipient-brand">
+					</div>
+					<div class="mb-3">
+						<label for="recipient-number_place" class="col-form-label">Nombre de places :</label>
+						<input type="text" name="update_number_place" class="form-control" id="recipient-number_place">
+					</div>
+					<div class="mb-3">
+						<label for="recipient-color" class="col-form-label">Couleur :</label>
+						<input type="text" name="update_color" class="form-control" id="recipient-color">
+					</div>
+					<div class="mb-3">
+						<label for="recipient-price" class="col-form-label">Prix à la journée :</label>
+						<input type="text" name="update_price" class="form-control" id="recipient-price">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-warning">Modifier</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Modal -->
+
+<script src="/assets/scripts/modalsAdmin.js"></script>{% endblock %}

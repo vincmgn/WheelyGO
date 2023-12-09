@@ -1,0 +1,34 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Vehicules
+{% endblock %}
+
+{% block content %}
+	<div class="container my-5">
+		<div class="text-center">
+			<h1 class="display-6">				
+			<span class="multicolor-heading">Résultat</span> de la recherche 
+			</h1>
+		</div>
+
+		<div class="row mt-4">
+			{% for vehicle in vehicles %}
+				<div class="col-md-3 mb-4">
+					<div class="card">
+						<img src="{{ vehicle.image_path }}" class="card-img-top" alt="{{ vehicle.name }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ vehicle.name }}</h5>
+							<p class="card-text">Marque:
+								{{ vehicle.brand }}</p>
+							<p class="card-text">Prix à la journée:
+								{{ vehicle.price }}
+								€</p>
+							<a href="/vehicle/{{ vehicle.id }}" class="btn btn-primary">En savoir plus</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<script src="/assets/scripts/home.js"></script>
+{% endblock %}

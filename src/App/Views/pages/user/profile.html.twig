@@ -1,0 +1,362 @@
+{% extends '/templates/default.html.twig' %}
+
+{% block title %}WheelyGO | Mon compte
+{% endblock %}
+
+{% block content %}
+
+	<section style="background-color: #eee;">
+		{% if alertMessage is not empty %}
+			<div class="container  alert d-flex justify-content-center alert-succes">
+				{{ alertMessage | raw }}
+			</div>
+		{% endif %}
+		<div class="container py-4">
+			<div class="text-center pb-4">
+				<h1 class="display-6">Mon
+					<span class="multicolor-heading">compte</span>
+				</h1>
+			</div>
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="card mb-4 profilecard">
+						<div class="card-body text-center shadow">
+							<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+							<h5 class="my-3">{{ datas.firstname }}
+								{{ datas.lastname }}</h5>
+							<p class="text-muted mb-4">
+								{{ datas.address }}</p>
+							{% if datas.isAdmin != 1 %}
+								<label class="badge bg-info text-dark fs-5 shadow">Client</label>
+							{% else %}
+								<label class="badge bg-danger text-dark fs-5 shadow">Administrateur</label>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="card mb-4 profilecard">
+						<div class="card-body shadow">
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Prénom</p>
+								</div>
+								<div class="col-sm-6">
+									<p class="text-muted mb-0">{{ datas.firstname }}</p>
+								</div>
+								<div class="col-sm-3 ">
+									<button class="btn btn-light float-end btnUpdate">
+										<i class="fa-solid fa-pen"></i>
+									</button>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Nom</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ datas.lastname }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Adresse Email</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ datas.email }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Téléphone</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ datas.phone }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Adresse</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{ datas.address }}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Mot de passe</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">********</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="card mb-4 cardAvisAndHistorique">
+						<div class="card-body shadow">
+							<h3 class="pb-2 pt-1 ps-1">Historique des réservations</h3>
+							{% if reservations is not empty %}
+								{% for reservation in reservations %}
+									<div class="card mb-3 shadow-sm bg-light">
+										<div class="row g-0 ">
+											<a href="/vehicle/{{ reservation.vehicle_id}}" class="col-md-6 d-flex align-items-center border-end">
+												<img src="{{ reservation.vehicle_image_path }}" class="card-img-top" alt="Vehicle Image">
+											</a>
+
+											<div class="col-md-6">
+												<div class="card-body">
+													<h4 class="card-title linkToVehicle">
+														<a href="/vehicle/{{ reservation.vehicle_id}}" class="text-decoration-none text-dark">{{ reservation.vehicle_name }}</a>
+													</h4>
+													<div class="card-text">
+														<strong>Marque:</strong>
+														{{ reservation.vehicle_brand }}</div>
+													<div class="card-text">
+														<strong>Couleur:</strong>
+														{{ reservation.vehicle_color }}</div>
+													<div class="card-text">
+														<strong>Nombre de places:</strong>
+														{{ reservation.vehicle_number_place }}</div>
+													<div class="card-text">
+														<strong>Localisation:</strong>
+														{{ reservation.vehicle_localisation }}</div>
+													<div class="card-text">
+														<strong>Prix:</strong>
+														{{ reservation.price }}
+														€</div>
+													<div class="card-text">
+														<strong>Date de départ:</strong>
+														{{ reservation.start_date }}</div>
+													<div class="card-text mb-3">
+														<strong>Date de retour:</strong>
+														{{ reservation.end_date }}</div>
+
+													{% set isReservationFinished = reservation.is_finished %}
+													{% set hasReview = reservation.has_review %}
+
+													{% if isReservationFinished %}
+														{% if hasReview %}
+															<div class="btn btn-dark" data-mdb-ripple-init data-vehicle-id="{{ reservation.vehicle_id }}">Avis déjà posté!</div>
+														{% else %}
+															<button class="btn btn-info btnReview" data-mdb-ripple-init data-vehicle-name="{{ reservation.vehicle_name }}" data-vehicle-id="{{ reservation.vehicle_id }}">Noter le véhicule</button>
+														{% endif %}
+													{% else %}
+														<div class="btn btn-dark" data-mdb-ripple-init data-vehicle-id="{{ reservation.vehicle_id }}">Réservation pas terminée</div>
+													{% endif %}
+
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% else %}
+								<p>Vous n'avez pas encore effectué de réservation</p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="card mb-4 cardAvisAndHistorique">
+						<div class="card-body shadow">
+							<h3 class="pb-2 pt-1 ps-1">Avis postés</h3>
+							{% if reviews is not empty %}
+								{% for review in reviews %}
+									<div class="card mb-3 shadow-sm bg-light">
+										<div class="row g-0 ">
+											<a href="/vehicle/{{ review.vehicle_id}}" class="col-md-6 d-flex align-items-center border-end">
+												<img src="{{ review.vehicle_image_path }}" class="card-img-top" alt="Vehicle Image">
+											</a>
+											<div class="col-md-6">
+												<div class="card-body">
+													<h4 class="card-title linkToVehicle">
+														<a href="/vehicle/{{ review.vehicle_id}}" class="text-decoration-none text-dark">{{ review.vehicle_name }}</a>
+													</h4>
+													<div class="card-text">
+														<strong>Marque:</strong>
+														{{ review.vehicle_brand }}</div>
+													<div class="card-text">
+														<strong>Note:</strong>
+														<div class="rating">
+															<input value="5" name="rate-{{ review.id }}" id="star5" type="radio" {% if review.stars == 5 %} checked="" {% endif %}>
+															<label title="text" for="star-{{ review.id }}5"></label>
+															<input value="4" name="rate-{{ review.id }}" id="star4" type="radio" {% if review.stars == 4 %} checked="" {% endif %}>
+															<label title="text" for="star4-{{ review.id }}"></label>
+															<input value="3" name="rate-{{ review.id }}" id="star3" type="radio" {% if review.stars == 3 %} checked="" {% endif %}>
+															<label title="text" for="star3-{{ review.id }}"></label>
+															<input value="2" name="rate-{{ review.id }}" id="star2" type="radio" {% if review.stars == 2 %} checked="" {% endif %}>
+															<label title="text" for="star2-{{ review.id }}"></label>
+															<input value="1" name="rate-{{ review.id }}" id="star1" type="radio" {% if review.stars == 1 %} checked="" {% endif %}>
+															<label title="text" for="star1-{{ review.id }}"></label>
+														</div>
+													</div>
+													<div class="card-text mb-3">
+														<strong>Commentaire:</strong>
+														{{ review.review }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% else %}
+								<p>Vous n'avez pas encore posté d'avis</p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="card mb-4">
+					<div class="card-body shadow">
+						<h3 class="pb-2 pt-1 ps-1">Favoris</h3>
+						<div class="row g-3">
+							{% if favorites is not empty %}
+								{% for favorite in favorites %}
+									<div class="col-md-6">
+										<div class="card mb-3 shadow bg-light">
+											<div class="row g-0">
+												<a href="/vehicle/{{ favorite.vehicle_id}}" class="col-md-6 d-flex align-items-center border-end">
+													<img src="{{ favorite.vehicle_image_path }}" class="card-img-top" alt="Vehicle Image">
+												</a>
+												<div class="col-md-6">
+													<div class="card-body">
+														<h4 class="card-title linkToVehicle">
+															<a href="/vehicle/{{ favorite.vehicle_id}}" class="text-decoration-none text-dark">{{ favorite.vehicle_name }}</a>
+														</h4>
+														<div class="card-text">
+															<strong>Marque:</strong>
+															{{ favorite.vehicle_brand }}</div>
+														<div class="card-text">
+															<strong>Couleur:</strong>
+															{{ favorite.vehicle_color }}</div>
+														<div class="card-text">
+															<strong>Nombre de places:</strong>
+															{{ favorite.vehicle_number_place }}</div>
+														<div class="card-text">
+															<strong>Localisation:</strong>
+															{{ favorite.vehicle_localisation }}</div>
+														<div class="card-text">
+															<strong>Prix à la journée :</strong>
+															{{ favorite.price }}
+															€</div>
+														<a href="/profile/fav-delete/{{ favorite.vehicle_id }}" class="btn btn-danger mt-2" data-mdb-ripple-init>Supprimer le favori</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% else %}
+								<p>Vous n'avez pas encore de favoris</p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Modal update user -->
+		<div class="modal fade users-modal" id="modalProfile" tabindex="-1" aria-labelledby="modalProfileLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalProfileLabel">Modification Utilisateur :
+							<span id="user-id"></span>
+						</h1>
+						<button type="button" class="btn-close closeModalProfile" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="/profile/update" method="POST">
+							<div class="mb-3">
+								<label for="recipient-firstname" class="col-form-label">Prénom :</label>
+								<input type="text" value="{{ datas.firstname }}" name="update_firstname" class="form-control" id="recipient-firstname" required>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-lastname" class="col-form-label">Nom :</label>
+								<input type="text" value="{{ datas.lastname }}" name="update_lastname" class="form-control" id="recipient-lastname" required>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-email" class="col-form-label">Email :</label>
+								<input type="email" value="{{ datas.email }}" name="update_email" class="form-control" id="recipient-email" required>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-tel" class="col-form-label">Téléphone :</label>
+								<input type="phone" value="{{ datas.phone }}" name="update_phone" class="form-control" id="recipient-tel" required>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-address" class="col-form-label">Adresse :</label>
+								<input type="text" value="{{ datas.address }}" name="update_address" class="form-control" id="recipient-address" required>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-password" class="col-form-label">Mot de passe :</label>
+								<input type="password" placeholder="********" name="update_password" class="form-control" id="recipient-password" required>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-confirmPassword" class="col-form-label">Confirmer mot de passe :</label>
+								<input type="password" placeholder="********" name="update_confirmPassword" class="form-control" id="recipient-confirmPassword" required>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary closeModalProfile" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-warning">Modifier</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+
+		<!-- Modal add review -->
+		<div class="modal fade users-modal" id="modalReview" tabindex="-1" aria-labelledby="modalProfileLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalProfileLabel">Ajout d'un avis</h1>
+						<button type="button" class="btn-close closeModalReview" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="/profile/add-review" method="POST">
+							<div class="mb-3">
+								<input type="hidden" name="vehicle_id" id="vehicle-id-input" value="">
+								<label for="recipient-vehicle" id="recipient-vehicle" class="col-form-label"></label>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-lastname" class="col-form-label">Note attribuée :</label>
+								<div class="ratingChoice">
+									<input value="5" name="rateChoice" id="star5Choice" type="radio" checked="">
+									<label title="text" for="star5Choice"></label>
+									<input value="4" name="rateChoice" id="star4Choice" type="radio">
+									<label title="text" for="star4Choice"></label>
+									<input value="3" name="rateChoice" id="star3Choice" type="radio">
+									<label title="text" for="star3Choice"></label>
+									<input value="2" name="rateChoice" id="star2Choice" type="radio">
+									<label title="text" for="star2Choice"></label>
+									<input value="1" name="rateChoice" id="star1Choice" type="radio">
+									<label title="text" for="star1Choice"></label>
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="recipient-comment" class="col-form-label">Rédiger un commentaire :</label>
+								<textarea placeholder="Ajouter votre commentaire ici" name="comment" class="form-control" id="recipient-comment" rows="4" required></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary closeModalReview" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-warning">Poster cet avis</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+
+		<script src="/assets/scripts/modalProfile.js"></script>
+	{% endblock %}
