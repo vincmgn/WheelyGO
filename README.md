@@ -39,7 +39,8 @@ RUN apt-get update && \
 
 WORKDIR /var/www/html/
 
-RUN chmod -R 777 /var/www
+RUN mkdir -p /var/www/html/public/assets/vehicles && \
+    chown -R 777 /var/www/html/public/assets/vehicles/
 
 RUN pecl install xdebug \
     && apt update \
@@ -57,8 +58,6 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 - **docker-compose.yml** 🐋:
 
 ```YML
-version: "3"
-
 services:
   web:
     build: .
